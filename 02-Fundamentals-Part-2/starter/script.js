@@ -436,3 +436,5 @@ const calcAverage = function (arr) {
 
 console.log(`the average for the totals is --- ${calcAverage(totals)}`);
 
+console.log();
+
