@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /*
 let hasDriversLicense = false;
@@ -415,26 +415,25 @@ const tips = [];
 const totals = [];
 
 for (let i = 0; i <= bills.length - 1; i++) {
-    const tip = calcTip(bills[i]);
-    tips[i] = tip;
-    totals[i] = tip + bills[i];
+  const tip = calcTip(bills[i]);
+  tips[i] = tip;
+  totals[i] = tip + bills[i];
 
-    // tips.push(tip);
-    // totals.push(tip + bills[i]);
+  // tips.push(tip);
+  // totals.push(tip + bills[i]);
 }
 
 console.log(`the array for tips is --- ${tips}`);
 console.log(`the array for totals is --- ${totals}`);
 
 const calcAverage = function (arr) {
-    let sum = 0;
-    for (let i = 0; i <= arr.length - 1; i++) {
-        sum += arr[i];
-    }
-    return sum / arr.length;
-}
+  let sum = 0;
+  for (let i = 0; i <= arr.length - 1; i++) {
+    sum += arr[i];
+  }
+  return sum / arr.length;
+};
 
 console.log(`the average for the totals is --- ${calcAverage(totals)}`);
 
-console.log();
-
+let x = "test";
