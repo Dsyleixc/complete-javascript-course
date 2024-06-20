@@ -1,85 +1,94 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
 }
 
 html {
-  font-size: 62.5%;
-  box-sizing: border-box;
+    height: 100vh;
 }
 
 body {
-  font-family: sans-serif;
-  color: #333;
-  line-height: 1.5;
-  height: 100vh;
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  background: linear-gradient(to top left, #28b487, #7dd56f);
+    background-image: linear-gradient(to top left, #28b487, #7dd56f);
+}
+
+button {
+    cursor: pointer;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin: 3.5rem;
 }
 
 .show-modal {
-  font-size: 2rem;
-  font-weight: 600;
-  padding: 1.75rem 3.5rem;
-  margin: 5rem 2rem;
-  border: none;
-  background-color: #fff;
-  color: #444;
-  border-radius: 10rem;
-  cursor: pointer;
+    border: none;
+    font-size: 1.4rem;
+    font-weight: 600;
+    padding: 1rem 2rem;
+    border-radius: 2rem;
+    background-color: white;
 }
 
-.close-modal {
-  position: absolute;
-  top: 1.2rem;
-  right: 2rem;
-  font-size: 5rem;
-  color: #333;
-  cursor: pointer;
-  border: none;
-  background: none;
+.show-modal:hover {
+    background-color: aliceblue;
 }
 
 h1 {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
+    margin-bottom: 1.7rem;
+    font-size: 1.6rem;
 }
 
 p {
-  font-size: 1.8rem;
+    font-size: 1.2rem;
+    line-height: 1.8rem;
 }
 
-/* -------------------------- */
-/* CLASSES TO MAKE MODAL WORK */
-.hidden {
-  display: none;
-}
+/* HIDDEN MODAL */
 
 .modal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 70%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    justify-content: center;
+    width: 43rem;
+    border-radius: 0.5rem;
+    z-index: 1;
+}
 
-  background-color: white;
-  padding: 6rem;
-  border-radius: 5px;
-  box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
-  z-index: 10;
+.close-modal {
+    align-self: flex-end;
+    font-size: 4rem;
+    background: none;
+    border: none;
+    padding: 0 1rem;
+    padding-top: 1rem;
+    line-height: 3rem;
+    margin-bottom: -0.5rem;
+}
+
+.modal-content {
+    padding: 3.5rem;
+    padding-top: 0;
 }
 
 .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(3px);
-  z-index: 5;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.hidden {
+    display: none;
 }
