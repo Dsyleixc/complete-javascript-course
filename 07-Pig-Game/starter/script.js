@@ -1,45 +1,95 @@
 'use strict';
 
-/*
-1) NEW GAME BUTTON RESETS EVERYTHING
-2) ROLL DICE DOES RANDOM INT BETWEEN 1-6 AND SHOWS THE DICE FOR IT
-3) SCORE ON DICE GETS ADDED TO CURRENT SCORE EVERY TIME
-4) IF 1 IS ROLLED THEN CURRENT SCORE GETS RESET AND ACTIVE PLAYER GETS SWITCHED
-5) IF HOLD IS CLICKED CURRENT SCORE ADDED TO TOTAL SCORE AND ACTIVE PLAYER SWITCHED
-*/
+// SELECTING ELEMENTS
+const player0El = document.querySelector('.player--0');
+const player1El = document.querySelector('.player--1');
+const score0El = document.querySelector('#score--0');
+const score1El = document.getElementById('score--1');
+const current0El = document.getElementById('current--0');
+const current1El = document.getElementById('current--1');
+const diceEl = document.querySelector('.dice');
+const btnNew = document.querySelector('.btn--new');
+const btnRoll = document.querySelector('.btn--roll');
+const btnHold = document.querySelector('.btn--hold');
 
-const newGameButton = document.querySelector('.new-game');
-const rollDiceButton = document.querySelector('.roll-dice');
-const holdButton = document.querySelector('.hold-score');
-const player1 = document.querySelector('.player-1');
-const player2 = document.querySelector('.player-2');
-const p1CurrentScore = document.querySelector('#p1-current-score');
-const p2CurrentScore = document.querySelector('#p2-current-score');
-let dicePicture = document.querySelector('.dice').src;
-let dice;
+// Starting conditions
+let scores, currentScore, activePlayer, playing;
+const init = function () {
+    diceEl.classList.add('hidden');
 
-// 2) ROLL DICE DOES RANDOM INT BETWEEN 1-6 AND SHOWS THE DICE FOR IT
-
-const rollDice = function () {
-    dice = Math.trunc(Math.random() * 6) + 1;
-    document.querySelector('.dice').src = `dice-${dice}.png`;
-    console.log(dice);
+    scores = [0, 0];
+    currentScore = 0;
+    activePlayer = 0;
+    playing = true;
+    score0El.textContent = 0;
+    score1El.textContent = 0;
+    current0El.textContent = 0;
+    current1El.textContent = 0;
+    player0El.classList.remove('player--winner');
+    player1El.classList.remove('player--winner');
+    player0El.classList.add('player--active');
+    player1El.classList.remove('player--active');
 };
-rollDiceButton.addEventListener('click', rollDice);
+init();
 
-// 3) SCORE ON DICE OF ACTIVE PLAYER GETS ADDED TO CURRENT SCORE EVERY TIME
-const currentScore = function () {
-    const currentPlayerScore = player1.classList.contains('active-player')
-        ? p1CurrentScore
-        : p2CurrentScore;
-    currentPlayerScore.textContent =
-        Number(currentPlayerScore.textContent) + dice;
+const switchPlayer = function () {
+    currentScore = 0;
+    document.getElementById(`current--${activePlayer}`).textContent = 0;
+    // switch to next player
+    activePlayer = activePlayer === 0 ? 1 : 0;
+    player0El.classList.toggle('player--active');
+    player1El.classList.toggle('player--active');
 };
-rollDiceButton.addEventListener('click', currentScore);
 
-// 4) IF 1 IS ROLLED THEN CURRENT SCORE GETS RESET AND ACTIVE PLAYER GETS SWITCHED
-if (dice === 1) {
-    // IF P1 IS ACTIVE
-    if (player1.contains('active-player')) {
+// Roll Dice Button
+btnRoll.addEventListener('click', function () {
+    if (playing) {
+        // 1. Generate dice roll between 1-6
+        const dice = Math.trunc(Math.random() * 6) + 1;
+
+        // 2. Display dice
+        diceEl.classList.remove('hidden');
+        diceEl.src = `dice-${dice}.png`;
+
+        // 3. Check for 1: if true switch to next player, else add dice to score
+        if (dice !== 1) {
+            // add dice to score
+            currentScore += dice;
+            document.getElementById(`current--${activePlayer}`).textContent =
+                currentScore;
+        } else {
+            // Reset score to 0
+            switchPlayer();
+        }
     }
-}
+});
+
+btnHold.addEventListener('click', function () {
+    if (playing) {
+        // 1. Add current score to actve players score
+        scores[activePlayer] += currentScore;
+        document.getElementById(`score--${activePlayer}`).textContent =
+            scores[activePlayer];
+
+        // 2. Check that score is >= 100
+        if (scores[activePlayer] >= 10) {
+            // Finish the game
+            playing = false;
+            document
+                .querySelector(`.player--${activePlayer}`)
+                .classList.add('player--winner');
+            document
+                .querySelector(`.player--${activePlayer}`)
+                .classList.remove('player--active');
+            diceEl.classList.add('hidden');
+        } else {
+            // if not then switch to next player
+            switchPlayer();
+        }
+    }
+});
+
+btnNew.addEventListener('click', function () {
+    // Reset all variables
+    init();
+});
