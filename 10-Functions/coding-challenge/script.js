@@ -32,44 +32,63 @@ BONUS TEST DATA 1: [5, 2, 3]
 BONUS TEST DATA 2: [1, 5, 3, 9, 6, 1]
 
 GOOD LUCK 😀
-*/
 
-// function to get user answer, check if its valid, and tally correct answer
-const registerNewAnswer = function () {
-  //display prompt window
-  const userAnswer = prompt(`What is your favourite programming language?
-      0: JavaScript
-      1: Python
-      2: Rust
-      3: C++
-      (Write option number)`);
-  // check if answer is valid and if valid add to answers array
-  if (userAnswer > 3 || userAnswer < 0) {
-    alert(`not a valid answer!`);
+
+function registerNewAnswer() {
+  const answer = prompt(`${this.question}\n${this.options.join('\n')}`);
+  // add answer to answers array
+  if (answer > 3 || answer < 0) {
+    alert(`not a valid answer`);
   } else {
-    this.answers[userAnswer]++;
+    this.answers[answer]++;
   }
-};
+}
 
-// displays results
-const displayResults = function (type = 'string') {
-  if (type === 'string') {
-    console.log(`Poll results are: ${this.answers.join(', ')}`);
-  } else if (type === 'array') {
-    console.log(poll.answers);
+function displayResults(type = 'string') {
+  if (type === 'array') {
+    console.log(this.answers);
+  } else if (type === 'string') {
+    console.log(`Poll results are ${this.answers.join(', ')}`);
   }
-};
+}
 
 const poll = {
-  registerNewAnswer,
-  answers: [0, 0, 0, 0],
+  question: 'What is your favourite programming language?',
+  options: ['0: Javascript', '1: Python', '2: Rust', '3: C++'],
+  answers: new Array(4).fill(0),
+  registerNewAnswer: function () {
+    registerNewAnswer.call(poll), displayResults.call(poll);
+  },
   displayResults,
 };
 
-// 2
-document.querySelector('.poll').addEventListener('click', function () {
-  registerNewAnswer.call(poll);
-  displayResults.call(poll);
-});
+document
+  .querySelector('.poll')
+  .addEventListener('click', poll.registerNewAnswer.bind(poll));
 
-// NOT DONE BONUS
+const testData = {
+  answers: [5, 2, 3],
+  answers2: [1, 5, 3, 9, 6, 1],
+};
+
+displayResults.call(testData);
+*/
+
+/* 
+This is more of a thinking challenge than a coding challenge 🤓
+
+Take the IIFE below and at the end of the function, attach an event listener that changes the color of the selected h1 element ('header') to blue, each time the BODY element is clicked. Do NOT select the h1 element again!
+
+And now explain to YOURSELF (or someone around you) WHY this worked! Take all the time you need. Think about WHEN exactly the callback function is executed, and what that means for the variables involved in this example.
+
+GOOD LUCK 😀
+*/
+
+(function () {
+  const header = document.querySelector('h1');
+  header.style.color = 'red';
+
+  document.querySelector('body').addEventListener('click', function () {
+    header.style.color = 'blue';
+  });
+})();

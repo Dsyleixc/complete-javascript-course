@@ -5,7 +5,7 @@
 const bookings = [];
 
 const createBooking = function (
-  flightNum,
+  flightNum, 
   numPassengers = 1,
   price = 199 * numPassengers
 ) {
@@ -199,4 +199,81 @@ const tax = function (rate) {
 
 const addTaxRate = tax(0.13);
 console.log(addTaxRate(100));
+
+
+//////////////////////// IMMEDIATELY INVOKED FUNCTION EXPRESSIONS ///////////////////////
+
+// if you call it once it will only run once but you can call it again and again if you want
+const runOnce = function () {
+  console.log('this will never run again');
+};
+
+runOnce();
+
+// this is actually only used once it dont even got a name wrap it to avoid error then slap a () at the end to run it right away
+(function () {
+  console.log('this will never run again');
+})();
+
+(() => console.log('this will also  never run again'))();
+ 
+
+//////////////////////// CLOSURES ///////////////////////
+// tldr is every function has a backpack of the variables during its creation. So below function gets returned to booker function. the passengerCount++ still can find the let passengerCount=0 bcz that variable is in the backpack since the returned function can always get variables created during its birthplace
+const secureBooking = function () {
+  let passengerCount = 0;
+
+  return function () {
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
+  };
+};
+
+const booker = secureBooking();
+
+booker();
+booker();
+booker();
+
+// can use console.dir to see the scope that would show the variables in the backpack
+console.dir(booker);
+
+// Closure example1
+let f;
+
+const g = function () {
+  const a = 23;
+  f = function () {
+    console.log(a * 2);
+  };
+};
+
+const h = function () {
+  const b = 777;
+  f = function () {
+    console.log(b * 2);
+  };
+};
+g();
+f();
+h();
+f();
+console.dir(f);
 */
+
+// Closure example2
+const boardPassengers = function (n, wait) {
+  const perGroup = n / 3;
+
+  setTimeout(function () {
+    console.log(`we are now boarding all ${n} passengers`);
+    console.log(`there are 3 groups each with ${perGroup} passengers`);
+  }, wait * 1000);
+
+  console.log(`Will start boarding in ${wait} seconds`);
+};
+
+// this variable wont get used bcz in scope/backpack has priority
+const perGroup = 1000;
+
+boardPassengers(180, 3);
